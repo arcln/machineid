@@ -44,7 +44,7 @@ u16 getVolumeHash() {
 	DWORD serialNum = 0;
 
 	// Determine if this volume uses an NTFS file system.
-	GetVolumeInformation("c:\\", NULL, 0, &serialNum, NULL, NULL, NULL, 0);
+	GetVolumeInformation(reinterpret_cast<LPCWSTR>("c:\\"), NULL, 0, &serialNum, NULL, NULL, NULL, 0);
 	u16 hash = (u16)((serialNum + (serialNum >> 16)) & 0xFFFF);
 
 	return hash;
@@ -64,7 +64,7 @@ u16 getCpuHash() {
 const char *getMachineName() {
 	static char computerName[1024];
 	DWORD size = 1024;
-	GetComputerName(computerName, &size);
+	GetComputerName(reinterpret_cast<LPWSTR>(computerName), &size);
 	return &(computerName[0]);
 }
 #else
